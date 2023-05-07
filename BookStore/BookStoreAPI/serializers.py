@@ -7,6 +7,13 @@ from django.shortcuts import get_object_or_404
 from datetime import datetime
 
 
+class BookCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BookCategory
+        fields = "__all__"
+
+
 class BookItemSerializer(serializers.ModelSerializer):
 
     book_category = serializers.CharField(source="category.title", read_only=True)
