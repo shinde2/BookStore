@@ -1,7 +1,6 @@
-
 from rest_framework import serializers
 from BookStoreAPI.models import BookItem, BookCategory
-#from BookStoreAPI.exceptions import UserNotFound404
+from BookStoreAPI.exceptions import UserNotFound404
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from datetime import datetime
@@ -33,5 +32,20 @@ class BookItemSerializer(serializers.ModelSerializer):
         )
         bookitem.save()
         return bookitem
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    username = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "username"]
+
+    def validate_username(self, username):
+        user_exists = User.objects.filter(username=username).exists()
+        if not user_exists:
+            raise UserNotFound404
+        return username
 
 
