@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from BookStoreAPI.models import BookItem, BookCategory, Cart
+from BookStoreAPI.models import BookItem, BookCategory, Cart, CartItem
 from BookStoreAPI.exceptions import UserNotFound404
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -74,5 +74,16 @@ class CartSerializer(serializers.ModelSerializer):
         )
         cart.save()
         return cart
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+
+    order = serializers.CharField(source="order.id", read_only=True)
+    bookitem = serializers.CharField(source="bookitem.title", read_only=True)
+
+    class Meta:
+        model = CartItem
+        fields = ["id", "order", "bookitem", "quantity", "price", "total"]
+        read_only_fields = ["id", "quantity", "price", "total"]
 
 
