@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from BookStoreAPI.models import BookItem, BookCategory, Cart, CartItem
+from BookStoreAPI.models import BookItem, BookCategory, Cart, CartItem, Order
 from BookStoreAPI.exceptions import UserNotFound404
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -87,3 +87,52 @@ class CartItemSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "quantity", "price", "total"]
 
 
+class OrderSerializer(serializers.ModelSerializer):
+
+    user = serializers.CharField(source="user.username", read_only=True)
+    carrier = serializers.CharField(source="carrier.username", read_only=True, allow_null=True)
+    books = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ["id", "user", "carrier", "status", "total", "date", "books"]
+        read_only_fields = ["id", "status", "total", "date"]
+
+    def get_books(self, order:Order):
+        queryset = order.cart_items.filter(order=order)
+        # Use related name like above or below also works
+        #queryset = CartItem.objects.filter(order=order)
+        return CartItemSerializer(queryset, many=True).data
+
+    def create(self, validated_data):
+        user = User.objects.get(id=self.context["request"].user.id)
+
+        cart = Cart.objects.filter(user=user)
+        if not cart:
+            raise serializers.ValidationError(f"{user.username} does not have any books in cart")
+
+        order = Order.objects.create(
+            user=user,
+            status=0,
+            total=0,
+            date=datetime.now()
+        )
+        order.save()
+
+        total = 0
+        for book in cart:
+            cartitem = CartItem.objects.create(
+                order=order,
+                bookitem=book.menuitem,
+                quantity=book.quantity,
+                price=book.price,
+                total=book.total
+            )
+            total += book.price
+            cartitem.save()
+        cart.delete()
+
+        order.total = total
+        order.save()
+
+        return order
