@@ -226,9 +226,3 @@ class OrdersDetail(generics.RetrieveUpdateDestroyAPIView):
         else:
             return Response({"Forbidden": "Can not delete this order"},
                             status=status.HTTP_403_FORBIDDEN)
-
-
-
-
-
-

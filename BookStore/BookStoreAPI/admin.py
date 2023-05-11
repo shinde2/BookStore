@@ -1,3 +1,4 @@
 from django.contrib import admin
+from BookStoreAPI.models import BookItem, BookCategory, Cart, CartItem, Order
 
-# Register your models here.
+admin.site.register(BookItem, BookCategory, Cart, CartItem, Order)
