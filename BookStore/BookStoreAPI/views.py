@@ -5,6 +5,7 @@ from BookStoreAPI.serializers import BookItemSerializer, BookCategorySerializer,
 from BookStoreAPI.serializers import CartSerializer, OrderSerializer
 from BookStoreAPI.models import BookItem, BookCategory, Cart, Order
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, SAFE_METHODS
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from BookStoreAPI.permissions import IsManager, IsCarrier
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -16,6 +17,9 @@ class BookItemsList(generics.ListCreateAPIView):
     queryset = BookItem.objects.all()
     serializer_class = BookItemSerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    ordering_fields = ["price"]
+    search_fields = ["book_category__title"]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
@@ -27,12 +31,15 @@ class BookItemsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = BookItem.objects.all()
     serializer_class = BookItemSerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 
 class BookCategoryList(generics.ListCreateAPIView):
     queryset = BookCategory.objects.all()
     serializer_class = BookCategorySerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    search_fields = ["title"]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
@@ -44,6 +51,7 @@ class BookCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = BookCategory.objects.all()
     serializer_class = BookCategorySerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 
 class ManagersList(generics.ListCreateAPIView):
@@ -142,6 +150,9 @@ class OrdersList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+    ordering_fields = ["total"]
+    search_fields = ["status"]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_queryset(self):
         if self.request.user.is_staff or self.request.user.groups.filter(name="Manager"):
@@ -156,6 +167,7 @@ class OrdersDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get(self, request, *args, **kwargs):
         order = get_object_or_404(Order, id=kwargs["pk"])
