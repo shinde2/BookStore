@@ -7,7 +7,7 @@ class IsManager(permissions.BasePermission):
         return request.user.groups.filter(name="Manager")
 
 
-class IsDeliveryCrew(permissions.BasePermission):
+class IsCarrier(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        return request.user.groups.filter(name="Delivery Crew")
+        return request.user.groups.filter(name="Carrier")
