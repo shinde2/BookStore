@@ -1,0 +1,18 @@
+[
+    {
+      "model": "BookStoreAPI.BookCategory",
+      "pk": 1,
+      "fields": {
+        "title": "1",
+        "description": "1"
+      }
+    },
+    {
+      "model": "BookStoreAPI.BookCategory",
+      "pk": 2,
+      "fields": {
+        "title": "2",
+        "description": "2"
+      }
+    }
+  ]

@@ -99,9 +99,9 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "status", "total", "date"]
 
     def get_books(self, order:Order):
-        queryset = order.cart_items.filter(order=order)
+        # queryset = order.cart_items.filter(order=order)
         # Use related name like above or below also works
-        #queryset = CartItem.objects.filter(order=order)
+        queryset = CartItem.objects.filter(order=order)
         return CartItemSerializer(queryset, many=True).data
 
     def create(self, validated_data):
