@@ -123,7 +123,7 @@ class OrderSerializer(serializers.ModelSerializer):
         for book in cart:
             cartitem = CartItem.objects.create(
                 order=order,
-                bookitem=book.menuitem,
+                bookitem=book.bookitem,
                 quantity=book.quantity,
                 price=book.price,
                 total=book.total
