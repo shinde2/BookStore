@@ -15,7 +15,7 @@ class BookCategorySerializer(serializers.ModelSerializer):
 
 class BookItemSerializer(serializers.ModelSerializer):
 
-    book_category = serializers.CharField(source="category.title", read_only=True)
+    book_category = serializers.CharField(source="book_category.title", read_only=True)
     book_type = serializers.CharField(write_only=True)
 
     class Meta:
