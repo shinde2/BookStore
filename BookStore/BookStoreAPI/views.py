@@ -18,7 +18,7 @@ class BookItemsList(generics.ListCreateAPIView):
     serializer_class = BookItemSerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
     ordering_fields = ["price"]
-    search_fields = ["book_category__title"]
+    search_fields = ["title", "book_category__title"]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_permissions(self):
