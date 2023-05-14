@@ -3,16 +3,24 @@
       "model": "BookStoreAPI.BookCategory",
       "pk": 1,
       "fields": {
-        "title": "1",
-        "description": "1"
+        "title": "Horror",
+        "description": "Horror is a genre of fiction that is intended to disturb, frighten or scare."
       }
     },
     {
       "model": "BookStoreAPI.BookCategory",
       "pk": 2,
       "fields": {
-        "title": "2",
-        "description": "2"
+        "title": "SciFi",
+        "description": "Science fiction is a genre of speculative fiction, which typically deals with imaginative and futuristic concepts."
+      }
+    },
+    {
+      "model": "BookStoreAPI.BookCategory",
+      "pk": 3,
+      "fields": {
+        "title": "Motivational",
+        "description": "Motivation books are guides for inciting action and getting things done."
       }
     }
   ]

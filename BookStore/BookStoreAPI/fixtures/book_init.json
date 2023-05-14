@@ -1,0 +1,42 @@
+[
+    {
+      "model": "BookStoreAPI.BookItem",
+      "pk": 1,
+      "fields": {
+        "title": "The Outsider",
+        "author": "Stephen King",
+        "price": 10.99,
+        "book_category": 1
+      }
+    },
+    {
+      "model": "BookStoreAPI.BookItem",
+      "pk": 2,
+      "fields": {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "price": 15.00,
+        "book_category": 2
+      }
+    },
+    {
+      "model": "BookStoreAPI.BookItem",
+      "pk": 3,
+      "fields": {
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "price": 15.00,
+        "book_category": 3
+      }
+    },
+    {
+      "model": "BookStoreAPI.BookItem",
+      "pk": 4,
+      "fields": {
+        "title": "Contact",
+        "author": "Carl Sagan",
+        "price": 12.00,
+        "book_category": 2
+      }
+    }
+  ]
