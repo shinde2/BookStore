@@ -42,7 +42,7 @@ class LogInUser(generics.CreateAPIView):
 
 class LogOutUser(generics.CreateAPIView):
     permission_classes = [AllowAny]
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
