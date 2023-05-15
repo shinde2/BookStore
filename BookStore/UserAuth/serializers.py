@@ -31,8 +31,8 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 
 # IMP: Note that we can not use model serializer here.
 #      Model Serializer will check for username to be
-#      unique as defined above, and will not let
-#      registered users login.
+#      unique as defined by Django AbstractUser, 
+#      and will not let registered users login.
 class LoginUserSerializer(serializers.Serializer):
 
     username = serializers.CharField()
