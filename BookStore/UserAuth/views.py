@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from UserAuth.serializers import RegisterUserSerializer, LoginUserSerializer
 from rest_framework.permissions import AllowAny
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
@@ -42,7 +42,7 @@ class LogInUser(generics.CreateAPIView):
 
 class LogOutUser(generics.CreateAPIView):
     permission_classes = [AllowAny]
-    throttle_classes = [AnonRateThrottle]
+    throttle_classes = [UserRateThrottle]
 
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
