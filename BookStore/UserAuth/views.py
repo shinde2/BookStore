@@ -18,10 +18,8 @@ class RegisterUser(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = User(**serializer.data)
-            user.set_password(serializer.data.get("password"))
-            user.save()
-            return Response({"Success": f"{user.username} is registered."}, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True):
+        user = User(**serializer.validated_data)
+        user.set_password(serializer.validated_data.get("password"))
+        user.save()
+        return Response({"Success": f"{user.username} is registered."}, status=status.HTTP_200_OK)
