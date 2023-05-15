@@ -126,7 +126,7 @@ class CarrierDetail(generics.DestroyAPIView):
         return Response({"Success": f"{user.username} is removed from Carrier"}, status=status.HTTP_200_OK)
 
 
-class Carts(generics.ListCreateAPIView, generics.DestroyAPIView):
+class CartsList(generics.ListCreateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
@@ -134,16 +134,14 @@ class Carts(generics.ListCreateAPIView, generics.DestroyAPIView):
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
 
-    def delete(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        total = len(queryset)
-        queryset.delete()
-        if total == 0:
-            return Response({"Warning": f"{request.user.username} does not have any items in cart"},
-                            status=status.HTTP_200_OK)
-        else:
-            return Response({"Success": f"{total} items removed for {request.user.username}"},
-                            status=status.HTTP_200_OK)
+
+class CartsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user)
 
 
 class OrdersList(generics.ListCreateAPIView):
