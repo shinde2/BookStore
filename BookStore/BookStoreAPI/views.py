@@ -33,6 +33,11 @@ class BookItemsDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return []
+        return [perm() for perm in self.permission_classes]
+
 
 class BookCategoryList(generics.ListCreateAPIView):
     queryset = BookCategory.objects.all()
@@ -52,6 +57,11 @@ class BookCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookCategorySerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
+
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return []
+        return [perm() for perm in self.permission_classes]
 
 
 class ManagersList(generics.ListCreateAPIView):
