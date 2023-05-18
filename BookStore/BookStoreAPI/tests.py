@@ -10,18 +10,13 @@ class BooksTests(APITestCase):
 
     fixtures = ["book_init.json", "category_init.json"]
 
-    #@classmethod
-    #def setUpTestData(cls) -> None:
-    #    group, __ = Group.objects.get_or_create(name="Manager")
-    #    all_perms = Permission.objects.all()
-    #    group.permissions.set(all_perms)
-    #    
-    #    cls.user = User.objects.create(username="manager")
-    #    cls.user.set_password("password")
-    #    cls.user.save()
-    #    cls.user.groups.add(group)
+    @classmethod
+    def setUpTestData(cls) -> None:
+        # will be run once for test class
+        pass 
 
     def setUp(self) -> None:
+        # will be run before every test
         pass 
 
     def test_get_all_books(self):
@@ -84,6 +79,24 @@ class BooksTests(APITestCase):
         #self.assertEqual(response.status_code, status.HTTP_201_CREATED)
     '''
 
+    # Post unit test should only test post request.
+    # Auth and group permissions should be tested separately.
+    # So use superuser to bypass permissions and force auth.
+    def test_post_superuser(self):
+        url = "/api/books"
+        data = {
+          "title": "x",
+          "author": "y",
+          "price": 15.00,
+          "book_type": "Horror",
+        }
+        user = User.objects.create_superuser(username="manager")
+        self.client.force_authenticate(user)
+        response = self.client.post(url, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    # This post test is more of a integration test as it tests,
+    # user login and group permissions.
     def test_post_manager(self):
         url = "/api/books"
         data = {
@@ -92,6 +105,7 @@ class BooksTests(APITestCase):
           "price": 15.00,
           "book_type": "Horror",
         }
+
         group, __ = Group.objects.get_or_create(name="Manager")
         all_perms = Permission.objects.all()
         group.permissions.set(all_perms)

@@ -30,9 +30,8 @@ class BookItemsList(generics.ListCreateAPIView):
 class BookItemsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = BookItem.objects.all()
     serializer_class = BookItemSerializer
-    #permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
-    #permission_classes = [IsManager]
-    #throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
