@@ -102,7 +102,7 @@ class ManagersDetail(generics.DestroyAPIView):
         return Response({"Success": f"{user.username} is removed from Manager"}, status=status.HTTP_200_OK)
 
 
-class CarrierList(generics.ListCreateAPIView):
+class CarrierList(generics.CreateAPIView):
     queryset = User.objects.filter(groups__name="Carrier")
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsAdminUser | IsManager]

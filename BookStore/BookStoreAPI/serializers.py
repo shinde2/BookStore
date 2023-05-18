@@ -1,4 +1,5 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response
 from BookStoreAPI.models import BookItem, BookCategory, Cart, CartItem, Order
 from BookStoreAPI.exceptions import UserNotFound404
 from django.contrib.auth.models import User
@@ -72,7 +73,6 @@ class CartSerializer(serializers.ModelSerializer):
             price=bookitem.price,
             total=bookitem.price * validated_data["quantity"]
         )
-        cart.save()
         return cart
 
 
@@ -102,7 +102,8 @@ class OrderSerializer(serializers.ModelSerializer):
         # queryset = order.cart_items.filter(order=order)
         # Use related name like above or below also works
         queryset = CartItem.objects.filter(order=order)
-        return CartItemSerializer(queryset, many=True).data
+        serializer = CartItemSerializer(queryset, many=True)
+        return serializer.data
 
     def create(self, validated_data):
         user = User.objects.get(id=self.context["request"].user.id)
@@ -128,7 +129,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 price=book.price,
                 total=book.total
             )
-            total += book.price
+            total += book.total
             cartitem.save()
         cart.delete()
 
