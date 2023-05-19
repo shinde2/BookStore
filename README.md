@@ -4,8 +4,11 @@ adding books to cart, placing an order, and user permissions and group managemen
 
 # Install
 - Clone the repo and create virtual env
-- ```pip install requirements.txt```
-- ```python3 manage.py migrate```
+- ```cd BookStore```
+  ```pip install requirements.txt```
+  ```cd BookStore```
+  ```python3 manage.py makemigrations```
+  ```python3 manage.py migrate```
 - To load DB with initial book data \
   ```python3 manage.py loaddata ./BookStoreAPI/fixtures```
 - Create superuser to access group management endpoints \
