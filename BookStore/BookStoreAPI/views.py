@@ -67,7 +67,7 @@ class BookCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class ManagersList(generics.ListCreateAPIView):
     queryset = User.objects.filter(groups__name="Manager")
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request, *args, **kwargs):
         # use request.data for form data, kwargs for url parameters
@@ -86,7 +86,7 @@ class ManagersList(generics.ListCreateAPIView):
 class ManagersDetail(generics.DestroyAPIView):
     queryset = User.objects.filter(groups__name="Manager")
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser | IsManager]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def delete(self, request, *args, **kwargs):
         try:
