@@ -74,7 +74,7 @@ class ManagersList(generics.ListCreateAPIView):
         username = request.data.get("username")
         try:
             user = User.objects.get(username=username)
-        except:
+        except Exception as err:
             raise UserNotFound404
         group = Group.objects.get(name="Manager")
         user.groups.add(group)
@@ -91,7 +91,7 @@ class ManagersDetail(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         try:
             user = User.objects.get(id=kwargs["pk"])
-        except:
+        except Exception as err:
             raise UserNotFound404
         group = Group.objects.get(name="Manager")
         if group.user_set.filter(id=user.id).exists():
@@ -111,7 +111,7 @@ class CarrierList(generics.CreateAPIView):
         username = request.data.get("username")
         try:
             user = User.objects.get(username=username)
-        except:
+        except Exception as err:
             raise UserNotFound404
         group = Group.objects.get(name="Carrier")
         user.groups.add(group)
@@ -126,7 +126,7 @@ class CarrierDetail(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         try:
             user = User.objects.get(id=kwargs["pk"])
-        except:
+        except Exception as err:
             raise UserNotFound404
         group = Group.objects.get(name="Carrier")
         if group.user_set.filter(id=user.id).exists():
