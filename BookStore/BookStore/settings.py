@@ -140,8 +140,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '2/minute',
-        'user': '10/minute',
+        'anon': '20/minute',
+        'user': '100/minute',
     },
     #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PAGINATION_CLASS': 'BookStoreAPI.pagination.CustomPagination',
